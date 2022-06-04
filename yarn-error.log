@@ -1,0 +1,87 @@
+Arguments: 
+  /home/alpus/.nvm/versions/node/v16.14.0/bin/node /home/alpus/.nvm/versions/node/v16.14.0/bin/yarn
+
+PATH: 
+  /home/alpus/.nvm/versions/node/v16.14.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.22.18
+
+Node version: 
+  16.14.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@parcel/transformer-js/-/transformer-js-2.6.0.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (/home/alpus/.nvm/versions/node/v16.14.0/lib/node_modules/yarn/lib/cli.js:141510:19)
+      at Object.onceWrapper (node:events:639:28)
+      at ClientRequest.emit (node:events:520:28)
+      at TLSSocket.emitRequestTimeout (node:_http_client:758:9)
+      at Object.onceWrapper (node:events:639:28)
+      at TLSSocket.emit (node:events:532:35)
+      at TLSSocket.Socket._onTimeout (node:net:501:8)
+      at listOnTimeout (node:internal/timers:559:17)
+      at processTimers (node:internal/timers:502:7)
+
+npm manifest: 
+  {
+  	"private": true,
+  	"scripts": {
+  		"build": "parcel build source/manifest.json --no-content-hash --no-source-maps --dist-dir distribution --no-cache --detailed-report 0",
+  		"lint": "run-p lint:*",
+  		"lint-fix": "run-p 'lint:* -- --fix'",
+  		"lint:css": "stylelint source/**/*.css",
+  		"lint:js": "xo",
+  		"test": "run-p lint:* build",
+  		"watch": "parcel watch source/manifest.json --dist-dir distribution --no-cache --no-hmr"
+  	},
+  	"browserslist": [
+  		"last 1 Chrome version",
+  		"last 1 Firefox version"
+  	],
+  	"xo": {
+  		"envs": [
+  			"browser"
+  		],
+  		"rules": {
+  			"no-unused-vars": [
+  				"error",
+  				{
+  					"varsIgnorePattern": "browser"
+  				}
+  			]
+  		}
+  	},
+  	"stylelint": {
+  		"extends": "stylelint-config-xo"
+  	},
+  	"dependencies": {
+  		"webext-base-css": "^1.4.0",
+  		"webext-options-sync": "^3.0.1",
+  		"webextension-polyfill": "^0.8.0"
+  	},
+  	"devDependencies": {
+  		"@parcel/config-webextension": "^2.5.0",
+  		"npm-run-all": "^4.1.5",
+  		"parcel": "^2.5.0",
+  		"stylelint": "^14.6.0",
+  		"stylelint-config-xo": "^0.21.0",
+  		"xo": "^0.48.0"
+  	},
+  	"webExt": {
+  		"sourceDir": "distribution",
+  		"run": {
+  			"startUrl": [
+  				"https://github.com/fregante/browser-extension-template"
+  			]
+  		}
+  	}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

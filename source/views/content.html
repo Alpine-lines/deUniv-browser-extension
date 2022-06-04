@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>DeUniv Cache</title>
+        <style>
+            body {
+            min-width: 320px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h3>DeUniv Cache Functions</h3>
+            <form id="options-form" class="detail-view-container">
+                    <div class="cache-inputs">
+                        <label class="cache-input">
+                            <span>Cache Current Tab</span>
+                            <input id="as-pdf" type="checkbox" checked="false">
+                            <span>Save as PDF</span>
+                            <button id="cache-current-button"></button>
+                        </label>
+                        <label class="cache-input">
+                            <span>Cache a Paper By URL</span>
+                            <input id="remote-url-input" type="text" name="url" placeholder="Enter a URL">
+                            <input id="as-pdf-remote" type="checkbox" checked="false"> 
+                            <span>Save as PDF</span>
+                            <button id="cache-remote-button"></button>
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div>
+            <h3>Cache</h3>
+            <div>Original page: <a id="url" target="_blank"></a></div>
+            <div>Saved <span id="span"></span> ago - <span id="date"></span></div>
+        </div>
+    </body>
+</html>
+
+<script src="promisify.js"></script>
+<script src="content.js" type="module"></script>
+<script src="https://unpkg.com/mhtml2html@<VERSION>" type="javascript" />

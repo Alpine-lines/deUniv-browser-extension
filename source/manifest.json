@@ -1,28 +1,53 @@
 {
 	"name": "Awesome Extension",
-	"version": "0.0.0",
-	"description": "An awesome new browser extension",
-	"homepage_url": "https://github.com/fregante/browser-extension-template",
+	"version": "0.0.2",
+	"description": "DeUniv Cache - Cache articles, webpages, and other documents for offline reading. Press Cntrl+Alt+S to save the current page.",
+	"homepage_url": "https://github.com/Alpine-lines/deUniv-browser-extension",
 	"manifest_version": 3,
 	"minimum_chrome_version": "100",
 	"browser_specific_settings": {
 		"gecko": {
-			"id": "awesome-extension@notlmn.github.io",
+			"id": "deuniv-extension@Alpine-lines.github.io",
 			"strict_min_version": "100.0"
 		}
 	},
 	"icons": {
 		"128": "icon.png"
 	},
+	"browser_action": {
+		"default_icon": {
+		  "128": "mht.png"
+		},
+		"default_title": "DeUniv Cache",
+		"default_popup": "content.html"
+	},
 	"permissions": [
-		"storage"
+		"tabs",
+		"storage",
+		"runtime",
+		"file:///*",
+		"downloads",
+		"pageCapture",
+		"pageCapture",
+		"contextMenus",
+		"notifications"
 	],
+	"commands": {
+		"cache-html": {
+		    "suggested_key": "Ctrl+Alt+s",
+		    "description": "cache a webpage for offline reading."
+		},
+		"cache-pdf": {
+		    "suggested_key": "Ctrl+Alt+p",
+		    "description": "cache a webpage as a PDF for offline reading."
+		}
+	},
 	"host_permissions": [
 		"https://github.com/*"
 	],
 	"content_scripts": [
 		{
-			"matches": [ "https://github.com/fregante/browser-extension-template/*" ],
+			"matches": [ "https://github.com/Alpine-lines/deUniv-browser-extension/*" ],
 			"js": [ "content.js" ],
 			"css": [ "content.css" ],
 			"run_at": "document_end"
