@@ -5,33 +5,36 @@
   <head>
     <meta charset="utf-8" />
     <title>DeUniv Cache</title>
-    <style>
-      body {
-        min-width: 320px;
-      }
-    </style>
+	<script src="../styles/styles.css"></script>
+	<script src="../styles/options.css"></script>
+	<script src="options.js" type="module"></script>
+	<script src="https://unpkg.com/mhtml2html@<VERSION>" type="javascript"></script>       
   </head>
   <body>
-		<h3>Cache Settings</h3>
-		<form id="options-form" class="detail-view-container">
-			<h3>Defaults</h3>
-			<div class="default-options">
-				<label class="default-input">
+	  	<header class="deuniv">
+			<h3>Cache Settings</h3>
+		</header>
+		<form id="options-controller" class="controller-container">
+			<div class="controller">
+				<label class="controller-input">
 					<span>Cache as PDF?</span>
-					<input id="as-pdf-default" type="checkbox" checked="false">
+					<input id="as-pdf-options" type="checkbox" checked="false">
 				</label>
-				<label class="default-input">
+				<label class="controller-input">
 					<span>Theme<span>
-					<input id="as-pdf-default" type="checkbox" checked="false"> 
+					<input id="as-pdf-options" type="checkbox" checked="false"> 
 				</label>
-				<label class="default-input">
-					<button class="default-submit" id="default-button"></button>
+			</div>
+			<div class="controller-actions">
+				<label class="controller-input">
+					<button id="options-submit"></button>
 				</label>
 			</div>
 		</form>
-		<footer class="deuniv-footer">
+		<footer class="deuniv">
 			<h3>DeUniv</h3>
-			<div>
+			<div class="footer-links">
+				<!-- <img /> -->
 				<a class="discord" href="">
 					<b>Join Our Discord!</b>
 				</a>

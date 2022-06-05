@@ -1,28 +1,51 @@
+import { handleError } from '../lib/util';
 
-const storageCache = {}; 
-
-const initStorageCache = async () => {
+export const initDeUnivCache = async () => {
     try {
-        Object.assign(storageCache, await getAllStorageSyncData());
+        window.deUnivCache = new Object.assign(deUnivCache, );
     } catch (error) {
-        console.error(error);
+        handleError(error);
     }
 }
 
-// Note: Once the Storage API gains promise support, this function can be greatly simplified.
-function getAllStorageSyncData() {
+// *tmp*
+//
+// if (chrome.runtime.lastError) {
+//   return reject(chrome.runtime.lastError);
+// }  
+// resolve(items);  
+
+// Getters
+export const getCache = () => {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get(null, (items) => {
-      if (chrome.runtime.lastError) {
-        return reject(chrome.runtime.lastError);
-      }
-      resolve(items); 
+      chrome.runtime.lastError ? reject(chrome.runtime.lastError) : resolve(
+        items.map(item => JSON.parse(item))
+      );
     });
   });
 }
 
-export default {
-    storageCache, 
-    initStorageCache,
-    getAllStorageSyncData
+export const getCachedData = key => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get(key, (value) => {
+      chrome.runtime.lastError ? reject(chrome.runtime.lastError) : resolve(JSON.parse(value));
+    });
+  });
 }
+
+// Setters
+export default async function setCachedData(data) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.set(data.filename, (data) => {
+      chrome.runtime.lastError ? reject(chrome.runtime.lastError) : resolve(JSON.stringify(data));
+    });
+  });
+}
+
+// export const deunivCache = {
+//     initDeUnivCache,
+//     getCache,
+//     getCachedData,
+//     setCachedData
+// }

@@ -1,71 +1,59 @@
-// eslint-disable-next-line import/no-unassigned-import
-import './content.css';
-import 'webext-base-css';
-import cacheTarget from './lib/cache';
-import optionsStorage from './options-storage.js';
+// import './content.css';
+// import 'webext-base-css';
+// import "browser-polyfill.js";
+import {
+  handleCacheCurrent,
+  handleCacheRemote,
+} from '../lib/cache';
+// import * as data from './storage/options-storage.js';
 
-/* Scema */
-const model = {};
+// Scema
+// const model = {};
 
-Object.defineProperties(model, {
-  date: {
-    set: (value) => {
-      dateSpan.textContent = value;
-    },
-  },
-  span: {
-    set: (value) => {
-      spanElement.textContent = value;
-    },
-  },
-  urlHref: {
-    set: (value) => {
-      urlLink.href = value;
-      urlLink.title = value;
-    },
-  },
-  urlText: {
-    set: (value) => {
-      urlLink.textContent = value;
-    },
-  },
-});
+// Object.defineProperties(model, {
+//   date: {
+//     set: value => {
+//       dateSpan.textContent = value;
+//     },
+//   },
+//   span: {
+//     set: value => {
+//       spanElement.textContent = value;
+//     },
+//   },
+//   urlHref: {
+//     set: value => {
+//       urlLink.href = value;
+//       urlLink.title = value;
+//     },
+//   },
+//   urlText: {
+//     set: value => {
+//       urlLink.textContent = value;
+//     },
+//   },
+// });
 
-/* SELECTORS */
-  
-const dateSpan = document.getElementById('date');
-const spanElement = document.getElementById('span');
-const urlLink = document.getElementById('url');
+// Selectors
 
-const asPdf = document.getElementById('as-pdf');
-const currentPageButton = document.getElementById('cache-current-button');
+const dateSpan = document.querySelector('#date');
+const spanElement = document.querySelector('#span');
+const urlLink = document.querySelector('#url');
+const asPdf = document.querySelector('#as-pdf');
+const cacheCurrentButton = document.querySelector('#cache-current-button');
+const urlinput = document.querySelector('#remote-url-input');
+const asPdfRemote = document.querySelector('#as-pdf-remote');
+const cacheRemoteButton = document.querySelector('#cache-remote-button');
 
-const urlinput = document.getElementById('remote-url-input');
-const asPdfRemote = document.getElementById('as-pdf-remote');
-const urlButton = document.getElementById('cache-remote-button');
-
-/* Initialize Content */
-
-const init = async () =>  {
-	const options = await optionsStorage.getAll();
+// Initializer
+const init = async () => {
+	const options = await getOptions();
 
 	asPdf.value = options.asPdfDefault;
 	asPdfRemote.value = options.asPdfDefault;
 
-	currentPageButton.addEventListener('click', handleCacheCurrent(tab));
-	urlButton.addEventListener('click', handleCacheRemote(urlinput.value));
-}
-
-/* Event Handlers */
-
-const handleCacheCurrent = async (tab) => {
-	asPdf.value ? await cacheDocument(window.location.href) : await cacheCurrent(tab);
-}
-
-const handleCacheRemote = async (url) => {
-	asPdfRemote.value ? await cacheDocument(url) : await cacheRemote(tab);
-}
-
-/* Run */
+	cacheCurrentButton.addEventListener('click', handleCacheCurrent(tab));
+	cacheRemoteButton.addEventListener('click', handleCacheRemote(urlinput.value));
+};
 
 init();

@@ -3,28 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <title>DeUniv Cache</title>
-    <style>
-      body {
-        min-width: 320px;
-      }
-    </style>
+    <script src="../styles/styles.css"></script>
+    <script src="../styles/permissions.css"></script>
+    <script src="https://unpkg.com/mhtml2html@<VERSION>" type="javascript"> </script>   
   </head>
   <body>
-    <h3>WARNING: Insufficient permissions to view the cached webpages.</h3>
-    <div>
-        <ol>
-        <li>
-            Right click on the <img style="width: 16px;" src="deuniv.png" /> icon above
-            and select 'Manage extensions'.
-        </li>
-        <li>
-            Locate and enable the 'Allow access to file URLs' permission.
-        </li>
+    <header class="deuniv">
+        <h3 class="warning">WARNING: Insufficient permissions to view the cached webpages.</h3>
+    </header>
+    <div class="warning-container">
+        <ol class="warning-info">
+          <li>
+              Right click on the <img style="width: 16px;" src="../deuniv.png" /> icon above
+              and select 'Manage extensions'.
+          </li>
+          <li>
+              Locate and enable the 'Allow access to file URLs' permission.
+          </li>
         </ol>
     </div>
-    <footer>
+    <footer class="deuniv">
         <h3>DeUniv</h3>
-        <div class="text-inputs">
+        <div>
+				    <!-- <img /> -->
             <a href="">
                 <b>Join Our Discord!</b>
             </a>
