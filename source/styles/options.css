@@ -1,25 +1,25 @@
 .color-input input[type='range'] {
-    flex: 1;
-    margin: 0 0.5rem;
+	flex: 1;
+	margin: 0 0.5rem;
 }
 
 .color-input input[type='number'] {
-    width: calc(3ch + 1rem);
+	width: calc(3ch + 1rem);
 }
 
 .color-output {
-    width: 86px;
-    height: 86px;
-    margin: 0.5rem;
+	width: 86px;
+	height: 86px;
+	margin: 0.5rem;
 }
 
 /* Firefox only */
 .only-firefox {
-    display: none;
+	display: none;
 }
 
 @-moz-document url-prefix('') {
-    .only-firefox {
-        display: block;
-    }
+	.only-firefox {
+		display: block;
+	}
 }

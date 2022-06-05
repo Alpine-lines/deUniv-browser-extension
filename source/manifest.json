@@ -1,5 +1,5 @@
 {
-	"name": "Awesome Extension",
+	"name": "deuniv-cache",
 	"version": "0.0.2",
 	"description": "DeUniv Cache - Cache articles, webpages, and other documents for offline reading. Press Cntrl+Alt+S to save the current page.",
 	"homepage_url": "https://github.com/Alpine-lines/deUniv-browser-extension",
@@ -8,70 +8,47 @@
 	"icons": {
 		"128": "icon.png"
 	},
-	"browser_action": {
+	"action": {
 		"default_icon": {
 		  "128": "icon.png"
 		},
 		"default_title": "DeUniv Cache",
-		"default_popup": "views/content.html"
-	},
-	"permissions": [
-		"tabs",
-		"storage",
-		"runtime",
-		"commands",
-		"downloads",
-		"pageCapture",
-		"contextMenus",
-		"browserAction",
-		"notifications"
-	],
-	"commands": {
-		"cache-html": {
-		    "suggested_key": {
-				"default": "Ctrl+Alt+s",
-				"mac": "Command+Alt+s"
-			},
-		    "description": "cache a webpage for offline reading."
-		},
-		"cache-pdf": {
-		    "suggested_key": {
-				"default": "Ctrl+Alt+p",
-				"mac": "Command+Alt+s"
-			},
-		    "description": "cache a webpage as a PDF for offline reading."
-		}
-	},
-	"options_ui": {
-		"browser_style": true,
-		"page": "./views/options.html"
+		"default_popup": "./views/content.html"
 	},
 	"background": {
 		"service_worker": "background.js",
 		"type": "module"
 	},
-	"content_scripts": [
-		{
-			"matches": [
-				"https://www.google.com/*"
-			],
-			"js": [
-				"storage/options-storage.js",
-				"views/content.js"
-			],
-			"css": [ 
-				"styles/content.css" 
-			],
-			"run_at": "document_end"
-		}
-	],
-	"browser_specific_settings": {
-		"gecko": {
-			"id": "deuniv-extension@Alpine-lines.github.io",
-			"strict_min_version": "100.0"
+	"commands": {
+		"cache-html": {
+		    "suggested_key": {
+				"default": "Ctrl+Shift+S",
+				"mac": "Command+Shift+S"
+			},
+		    "description": "cache the current active tab for offline reading."
+		},
+		"cache-pdf": {
+		    "suggested_key": {
+				"default": "Ctrl+Shift+P",
+				"mac": "Command+Shift+S"
+			},
+		    "description": "cache the current active tab as a PDF for offline reading."
 		}
 	},
 	"host_permissions": [
-		"https://github.com/*"
-	]
+		"https://github.com/Alpine-lines/deUniv-browser-extension*"
+	],
+	"permissions": [
+		"tabs",
+		"storage",
+		"commands",
+		"downloads",
+		"pageCapture",
+		"contextMenus",
+		"notifications"
+	],
+	"options_ui": {
+		"browser_style": true,
+		"page": "./views/options.html"
+	}
 }

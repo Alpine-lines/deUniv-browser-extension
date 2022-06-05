@@ -1,72 +1,68 @@
-// eslint-disable-next-line import/no-unassigned-import
-import { 
-    setPopup
+
+import {
+    setPopup,
 } from './lib/util';
+import './storage/options-storage.js';
 import { getCurrentTab } from './lib/tab';
-import { handleCacheCurrent, handleCacheRemote } from './lib/cache';
+import browser from 'webextension-polyfill';
 import { initDeUnivCache } from './storage/deUnivCache';
-import { initOptionStorage, refreshOptions } from './storage/options-storage.js';
+import { handleCacheCurrent, handleCacheRemote } from './lib/cache';
 
 /**
- * @title background.js 
+ * @title background.js
  * @author Alpine-lines
  * @notice DeUniv Browser Extension Service Worker
- * 
+ *
  **/
 
 /* Install */
 chrome.runtime.onInstalled.addListener(async () => {
-    initOptionStorage(); 
     await initDeUnivCache();
     chrome.contextMenus.create({
-        contexts: ["cache-current"],
-        title: "Cache current tab for offline reading",
-        onclick: handleCacheCurrent(getCurrentTab),
+        contexts: ['action'],
+        id: 'cache-content',
+        title: 'Cache current tab for offline reading',
     });
     // chrome.contextMenus.create({
-    //     contexts: ["cache-remote"],
-    //     title: "Cache a remote webpage for offline reading (must provide a URL)",
-    //     onclick: handleCacheRemote(window.location.href),
+    //     contexts: ["cache-content-as-pdf"],
+    //     title: "Cache current tab for offline reading as a PDF file",
     // });
     chrome.contextMenus.create({
-        contexts: ["browse-cache"],
-        title: "Browse Your DeUniv Cache",
-        onclick: getCache(),
+        contexts: ['action'],
+        id: 'browse-cached-content',
+        title: 'Browse Your DeUniv Cache',
     });
-    setPopup();
 });
 
 /* Event Listeners */
 
-chrome.contextMenus.onClicked.addListener(function (info, tab) {
-    if (info.menuItemId == 'cache-current') {
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId == 'cache-content') {
         handleCacheCurrent(tab);
-    } else if (info.menuItemId == 'cache-remote') {
-        handleCacheRemote(window.location.href);
-    } else if (info.menuItemId === 'browse-cache') {
+    // } else if (info.menuItemId == 'cache-content') {
+        // cacheDocument(tab);
+    } else if (info.menuItemId === 'browse-cached-content') {
         handleBrowseCache();
     }
 });
 
-chrome.browserAction.onClicked.addListener(async (tab) => {
+chrome.action.onClicked.addListener(async tab => {
     await handleCacheCurrent(tab);
 });
 
-// chrome.browserAction.onClicked.addListener(function (tab) {
+// chrome.action.onClicked.addListener(function (tab) {
     // handleCacheRemote(url);
 // });
 
-chrome.browserAction.onClicked.addListener(async (tab) => {
+chrome.action.onClicked.addListener(async tab => {
     await getCache();
 });
 
-chrome.commands.onCommand.addListener((command) => {
-    console.log('onCommand event received for message: ', command);
+chrome.commands.onCommand.addListener(command => {
+    console.log('onCommand event received for message:', command);
 });
 
-const run = async () =>  {
-    await refreshOptions();
-}
-  
+const run = async () => {};
+
 run();
-  
+

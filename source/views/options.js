@@ -1,21 +1,19 @@
 // import './options.css';
 // import 'webext-base-css';
 // import "browser-polyfill.js";
-import getOptions from '../storage/options-storage';
+import '../storage/options-storage.js';
 
 const asPdfDefault = document.querySelector('#as-pdf-default');
 const defaultSubmit = document.querySelector('#default-submit');
 
 const init = async () => {
-	const options = await getOptions();
+	const options = await optionsStorage.getAll();
+
 	asPdfDefault.value = options.asPdfDefault;
 	defaultSubmit.addEventListener('click', handleSubmit);
 };
 
-const handleSubmit = async () => {
-	await window.optionStorage.set({
-		asPdfDefault: asPdfDefault.value,
-	});
-};
+export const refreshOptions = async () => 	optionsStorage.syncForm('#options-form');
 
-init();
+init(
+);

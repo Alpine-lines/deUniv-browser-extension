@@ -2,9 +2,9 @@ export const getCurrentTab = async () => {
     const queryOptions = { active: true, lastFocusedWindow: true };
     const [tab] = await chrome.tabs.query(queryOptions);
     return tab;
-}
+};
 
-export default waitForCurrentTabLoaded = async callback => {
+export const waitForCurrentTabLoaded = async callback => {
     await chrome.tabs.reload();
     await chrome.tabs.current(tab => {
         if (tab.status === 'complete') {
@@ -16,4 +16,4 @@ export default waitForCurrentTabLoaded = async callback => {
             waitForCurrentTabLoaded(callback);
         }, 100);
     });
-}
+};

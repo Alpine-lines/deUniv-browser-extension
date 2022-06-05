@@ -2,6 +2,7 @@ import {
   handleCacheCurrent,
   handleCacheRemote,
 } from '../lib/cache';
+import '../storage/options-storage.js';
 import { handleBrowseCache } from '../storage/deUnivCache';
 
 // Scema
@@ -43,7 +44,7 @@ const cacheRemoteButton = document.querySelector('#cache-remote-button');
 
 // Initializer
 const init = async () => {
-	const options = await getOptions();
+	const options = optionsStorage.getAll;
 
 	asPdf.value = options.asPdfDefault;
 	asPdfRemote.value = options.asPdfDefault;

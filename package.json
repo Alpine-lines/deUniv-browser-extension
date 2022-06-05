@@ -7,7 +7,8 @@
 		"lint:css": "stylelint source/**/*.css",
 		"lint:js": "xo",
 		"test": "run-p lint:* build",
-		"watch": "parcel watch source/manifest.json --dist-dir distribution --no-cache --no-hmr"
+		"watch": "parcel watch source/manifest.json --dist-dir distribution --no-cache --no-hmr",
+		"run:chrome": "web-ext run -t chromium"
 	},
 	"browserslist": [
 		"last 1 Chrome version",
@@ -51,10 +52,10 @@
 		"xo": "^0.48.0"
 	},
 	"webExt": {
-		"sourceDir": "distribution",
+		"sourceDir": "./distribution",
 		"run": {
 			"startUrl": [
-				"https://github.com/fregante/browser-extension-template"
+				"https://github.com/Alpine-lines/deUniv-browser-extension"
 			]
 		}
 	}

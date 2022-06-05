@@ -1,6 +1,6 @@
 // import "browser-polyfill.js";
 
-export default notify = notification => {
+export const notify = notification => {
     if (!notification) {
 		return;
 	}
@@ -12,9 +12,9 @@ export default notify = notification => {
 				type: 'basic',
 				icon: 'icon.png',
 				title: 'SUCCESS!',
-				message: 'DeUniv successfully cached ' + notification.name + ' "' + notification.type + '" @ `' + notification.path + '`',
-                buttons: [ // TODO: refer to docs -- implement with notification.url
-
+				message: 'DeUniv successfully cached ' + notification.title + ' ("' + notification.type + '")!',
+                buttons: [ 
+					// TODO: refer to docs -- implement with notification.url
                 ],
 			},
 			notificationId => console.log(notificationId),
@@ -26,12 +26,14 @@ export default notify = notification => {
 				type: 'basic',
 				icon: 'icon.png',
 				title: 'ERROR!',
-				message: 'DeUniv failed to cache ' + notification.name + ' "' + notification.type + '" @ `' + notification.path + '`',
-                buttons: [ // TODO: refer to docs -- implement with options.url
-
+				message: 'DeUniv failed to cache ' + notification.title + ' {"' + notification.type + '")!',
+                buttons: [
+					// TODO: refer to docs -- implement with notification.url
                 ],
 			},
-			notificationId => console.log(notificationId),
+			notificationId => {console.log(notificationId)},
 		);
 	}
 };
+
+export default notify;
