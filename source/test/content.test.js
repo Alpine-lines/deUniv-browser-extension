@@ -65,6 +65,10 @@ const testCacheRemote = async () => {
   testPageCapture(await getCachedData(title), false);
 };
 
+const testCacheDocument = async () => {};
+
+const testBrowseCache = async () => {};
+
 chrome.test.getConfig(config => {
   
   chrome.test.runTests([
@@ -72,10 +76,10 @@ chrome.test.getConfig(config => {
       asPdf = false; // Mock: simulate asPdf.value being false;
       asPdf ? await testCacheDocument(window.location.href) : await testCacheCurrent(tab);
     },
-    // async function handleCacheCurrentAsPDF(asPdf=false) {
-    //   asPdf = false; // Mock: simulate asPdf.value being false;
-    //   asPdf ? await testCacheDocument(window.location.href) : await testCacheCurrent(tab);
-    // },
+    async function handleCacheCurrentAsPDF(asPdf=false) {
+      asPdf = false; // Mock: simulate asPdf.value being false;
+      asPdf ? await testCacheDocument(window.location.href) : await testCacheCurrent(tab);
+    },
     async function handleCacheRemoteNoPDF() {
       asPdf = false; // Mock: simulate asPdf.value being false;
       asPdf ? await testCacheDocument(testUrl) : await testCacheRemote(tab);
