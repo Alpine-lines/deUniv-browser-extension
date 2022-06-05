@@ -6,7 +6,7 @@ export const initDeUnivCache = async () => {
     } catch (error) {
         handleError(error);
     }
-}
+};
 
 // *tmp*
 //
@@ -24,7 +24,7 @@ export const getCache = () => {
       );
     });
   });
-}
+};
 
 export const getCachedData = key => {
   return new Promise((resolve, reject) => {
@@ -32,20 +32,26 @@ export const getCachedData = key => {
       chrome.runtime.lastError ? reject(chrome.runtime.lastError) : resolve(JSON.parse(value));
     });
   });
-}
+};
 
 // Setters
-export default async function setCachedData(data) {
-  return new Promise((resolve, reject) => {
-    chrome.storage.sync.set(data.filename, (data) => {
-      chrome.runtime.lastError ? reject(chrome.runtime.lastError) : resolve(JSON.stringify(data));
-    });
+export const setCachedData = async data => new Promise((resolve, reject) => {
+  chrome.storage.sync.set(data.title, (data) => {
+    chrome.runtime.lastError
+      ? reject(chrome.runtime.lastError)
+      : resolve(JSON.stringify(data));
   });
-}
+});
 
-// export const deunivCache = {
-//     initDeUnivCache,
-//     getCache,
-//     getCachedData,
-//     setCachedData
-// }
+// Event Handlers
+export const handleBrowseCache = async (containerElement) => {
+  containerElement.innerHtml = await getCache().map((key, value) => `<div id='cached-data-${key}' class='cached-data'><a href='${value.url}'${value.file}</a></div>`).join();
+};
+
+export default deUnivCache = {
+  initDeUnivCache,
+  getCache,
+  getCachedData,
+  setCachedData,
+  handleBrowseCache
+};

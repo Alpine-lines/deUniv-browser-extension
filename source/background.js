@@ -19,17 +19,17 @@ chrome.runtime.onInstalled.addListener(async () => {
     initOptionStorage(); 
     await initDeUnivCache();
     chrome.contextMenus.create({
-        contexts: ["page"],
+        contexts: ["cache-current"],
         title: "Cache current tab for offline reading",
         onclick: handleCacheCurrent(getCurrentTab),
     });
     // chrome.contextMenus.create({
-    //     contexts: ["page"],
+    //     contexts: ["cache-remote"],
     //     title: "Cache a remote webpage for offline reading (must provide a URL)",
     //     onclick: handleCacheRemote(window.location.href),
     // });
     chrome.contextMenus.create({
-        contexts: ["page"],
+        contexts: ["browse-cache"],
         title: "Browse Your DeUniv Cache",
         onclick: getCache(),
     });
@@ -37,6 +37,16 @@ chrome.runtime.onInstalled.addListener(async () => {
 });
 
 /* Event Listeners */
+
+chrome.contextMenus.onClicked.addListener(function (info, tab) {
+    if (info.menuItemId == 'cache-current') {
+        handleCacheCurrent(tab);
+    } else if (info.menuItemId == 'cache-remote') {
+        handleCacheRemote(window.location.href);
+    } else if (info.menuItemId === 'browse-cache') {
+        handleBrowseCache();
+    }
+});
 
 chrome.browserAction.onClicked.addListener(async (tab) => {
     await handleCacheCurrent(tab);

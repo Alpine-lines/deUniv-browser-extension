@@ -1,11 +1,8 @@
-// import './content.css';
-// import 'webext-base-css';
-// import "browser-polyfill.js";
 import {
   handleCacheCurrent,
   handleCacheRemote,
 } from '../lib/cache';
-// import * as data from './storage/options-storage.js';
+import { handleBrowseCache } from '../storage/deUnivCache';
 
 // Scema
 // const model = {};
@@ -36,12 +33,11 @@ import {
 
 // Selectors
 
-const dateSpan = document.querySelector('#date');
-const spanElement = document.querySelector('#span');
-const urlLink = document.querySelector('#url');
+const cachedDataContainer = document.querySelector('#cached-data-container');
+const browseCachedDataButton = document.querySelectorAll('cached-data');
 const asPdf = document.querySelector('#as-pdf');
 const cacheCurrentButton = document.querySelector('#cache-current-button');
-const urlinput = document.querySelector('#remote-url-input');
+const urlInput = document.querySelector('#remote-url-input');
 const asPdfRemote = document.querySelector('#as-pdf-remote');
 const cacheRemoteButton = document.querySelector('#cache-remote-button');
 
@@ -53,7 +49,8 @@ const init = async () => {
 	asPdfRemote.value = options.asPdfDefault;
 
 	cacheCurrentButton.addEventListener('click', handleCacheCurrent(tab));
-	cacheRemoteButton.addEventListener('click', handleCacheRemote(urlinput.value));
+	cacheRemoteButton.addEventListener('click', handleCacheRemote(urlInput.value));
+	browseCachedDataButton.addEventListener('click', handleBrowseCache(cachedDataContainer));
 };
 
 init();

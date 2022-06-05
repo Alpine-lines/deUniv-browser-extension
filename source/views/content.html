@@ -16,7 +16,7 @@
             <form id="cache-controller" class="controller-container">
                 <div class="controller">
                     <label class="controller-input">
-                        <span>Cache Current Tab</span>
+                        <span>Cache This Page</span>
                         <input id="as-pdf" type="checkbox" checked="false">
                     </label>
                 </div>
@@ -42,10 +42,10 @@
                 </div>
             </form>
         </section>
-        <section>
+        <section id="content">
             <h3>Cache</h3>
-            <div>Original page: <a id="url" target="_blank"></a></div>
-            <div>Saved <span id="span"></span> ago - <span id="date"></span></div>
+            <button id="browse-chached-data-button">Browse Your DeUniv Cache</button>
+            <div id="cached-data-container" class="cached-data"></div>
         </section>
         <footer class="deuniv">
             <h3>DeUniv</h3>

@@ -2,37 +2,36 @@ import notify from './notify';
 // import "browser-polyfill.js";
 import waitForCurrentTabLoaded from './tab';
 import { sanitize, patchSubject } from './util';
-import setCachedData from '../storage/deUnivCache';
+import { setCachedData } from '../storage/deUnivCache';
 
-async function cacheCurrent(tab) {
-    waitForCurrentTabLoaded(async () => {
-        const filename = `${sanitize(tab.title)}.mht`;
-        let blob = await toPromise(chrome.pageCapture.saveAsMHTML, { tabId: tab.id });
-        download(filename, await patchSubject(blob));
-    });
-}
+const cacheCurrent = async tab => waitForCurrentTabLoaded(async () => {
+    const filename = `${sanitize(tab.title)}.mht`;
+    let blob = await toPromise(chrome.pageCapture.saveAsMHTML, { tabId: tab.id });
+    download(filename, await patchSubject(blob));
+});
 
-async function cacheRemote(url) {
+const cacheRemote = async url => {
     let filename =  url.substring(url.lastIndexOf('/')+1, url.indexOf(';'));
     let response = await fetch(chrome.runtime.getURL(url));
     let blob = await response.blob();
     download(await patchSubject(blob), filename, url);
 }
  
-async function cacheDocument(url, options) {
-//    TODO: implement function cacheDocument
+const  cacheDocument = async (url, options) => {
+    // TODO: implement function cacheDocument
 }
 
 async function download(blob, filename, url) {
     const fileMetadata = {
+        title: filename.replace('.mht', ''),
         name: filename,
         url: URL.createObjectURL(blob),
         path: path, // TODO: path?
         type: filename.split('.')[-1] // TODO: working?
-    }
+    };
     await chrome.downloads.download({
         conflictAction: 'prompt',
-        filename: filename,
+        name: fileMetadata.filename,
         saveAs: true,
         url: fileMetadata.url,
     });
@@ -40,8 +39,7 @@ async function download(blob, filename, url) {
     notify(fileMetadata);
 }
 
-/* Event Handlers */
-
+// Event Handlers
 export const handleCacheCurrent = async (tab) => {
 	asPdf.value ? await cacheDocument(window.location.href) : await cacheCurrent(tab);
 }
