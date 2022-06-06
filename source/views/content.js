@@ -2,56 +2,31 @@ import {
   handleCacheCurrent,
   handleCacheRemote,
 } from '../lib/cache';
-import '../storage/options-storage.js';
-import { handleBrowseCache } from '../storage/deUnivCache';
-
-// Scema
-// const model = {};
-
-// Object.defineProperties(model, {
-//   date: {
-//     set: value => {
-//       dateSpan.textContent = value;
-//     },
-//   },
-//   span: {
-//     set: value => {
-//       spanElement.textContent = value;
-//     },
-//   },
-//   urlHref: {
-//     set: value => {
-//       urlLink.href = value;
-//       urlLink.title = value;
-//     },
-//   },
-//   urlText: {
-//     set: value => {
-//       urlLink.textContent = value;
-//     },
-//   },
-// });
-
-// Selectors
-
-const cachedDataContainer = document.querySelector('#cached-data-container');
-const browseCachedDataButton = document.querySelectorAll('cached-data');
-const asPdf = document.querySelector('#as-pdf');
-const cacheCurrentButton = document.querySelector('#cache-current-button');
-const urlInput = document.querySelector('#remote-url-input');
-const asPdfRemote = document.querySelector('#as-pdf-remote');
-const cacheRemoteButton = document.querySelector('#cache-remote-button');
+import 'webext-base-css';
+import '../styles/styles.css';
+import '../styles/options.css';
+import optionsStorage  from '../storage/options-storage';
+import { getCache, handleBrowseCache } from '../storage/deUnivCache';
 
 // Initializer
 const init = async () => {
-	const options = optionsStorage.getAll;
+	const storage = await getCache();
+	alert(JSON.parse(storage));
+	const browseCachedDataButton = document.querySelector('#browse-cached-data-button');
+	const asPdf = document.querySelector('#as-pdf');
+	const cacheCurrentButton = document.querySelector('#cache-current-button');
+	const urlInput = document.querySelector('#remote-url-input');
+	const asPdfRemote = document.querySelector('#as-pdf-remote');
+	const cacheRemoteButton = document.querySelector('#cache-remote-button');
+
+	const options = await optionsStorage.getAll();
 
 	asPdf.value = options.asPdfDefault;
 	asPdfRemote.value = options.asPdfDefault;
 
-	cacheCurrentButton.addEventListener('click', handleCacheCurrent(tab));
-	cacheRemoteButton.addEventListener('click', handleCacheRemote(urlInput.value));
-	browseCachedDataButton.addEventListener('click', handleBrowseCache(cachedDataContainer));
+	cacheCurrentButton.addEventListener('click', handleCacheCurrent);
+	cacheRemoteButton.addEventListener('click', handleCacheRemote);
+	browseCachedDataButton.addEventListener('click', handleBrowseCache);
 };
 
 init();

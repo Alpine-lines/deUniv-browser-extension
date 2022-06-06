@@ -1,6 +1,6 @@
-// import './options.css';
-// import 'webext-base-css';
-// import "browser-polyfill.js";
+import 'webext-base-css';
+import '../styles/styles.css';
+import '../styles/options.css';
 import '../storage/options-storage.js';
 
 const asPdfDefault = document.querySelector('#as-pdf-default');

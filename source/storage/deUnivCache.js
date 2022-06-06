@@ -1,52 +1,74 @@
-import { handleError } from '../lib/util';
-
-const storageCache = {};
+const storageCache = [{}];
 
 export const initDeUnivCache = async () => {
-  Object.assign(storageCache, await getCache());
+  Object.assign(
+    storageCache, 
+    await chrome.storage.sync.get(null, items => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(JSON.parse(items));
+      }
+    })
+  );
 }
 
 // Getters
-export const getCache = () => new Promise((resolve, reject) => {
-    chrome.storage.sync.get(null, items => {
-      chrome.runtime.lastError ? reject(chrome.runtime.lastError) : resolve(items);
-    });
+export const getCache = () => async () => storageCache.length > 1 
+  ? storageCache 
+  : await chrome.storage.sync.get(null, items => {
+    if (chrome.runtime.lastError) {
+      reject(chrome.runtime.lastError);
+    } else {
+      resolve(JSON.parse(items));
+    }
   });
 
 export const getCachedData = key => new Promise((resolve, reject) => {
     chrome.storage.sync.get([key], value => {
-      chrome.runtime.lastError ? reject(chrome.runtime.lastError) : resolve(value);
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(JSON.parse(value));
+      }
     });
   });
 
 // Setters
 export const setCachedData = data => new Promise((resolve, reject) => {
   chrome.storage.sync.set({key: data.title, value: data}, () => {
-    chrome.runtime.lastError
-      ? reject(chrome.runtime.lastError)
-      : resolve(data);
+    if (chrome.runtime.lastError) {
+      reject(chrome.runtime.lastError);
+    } else {
+      resolve(data);
+    }
   });
 });
 
 // Event Handlers
-export const handleBrowseCache = async containerElement => await getCache().filter(item => item.namespace === 'cache').map((value, i) => {
-  const cacheItem = document.createElement('div');
-  cacheItem.setAttribute('id', `cache-item-${i}`);
-  cacheItem.setAttribute('class', 'cache-item');
+export const handleBrowseCache = async () => {
+  const storage = await getCache();
+  alert(JSON.stringify(storage))
+  storage.filter(item => item.namespace === 'cache').map((value, i) => {
+    const containerElement = document.querySelector('#cached-data-container');
 
-  containerElement.append(cacheItem);
+    const cacheItem = document.createElement('div');
+    cacheItem.setAttribute('id', `cache-item-${i}`);
+    cacheItem.setAttribute('class', 'cache-item');
 
-  const cacheItemAnchor = document.createElement('a');
-  cacheItemAnchor.setAttribute('id', `cache-item-anchor-${i}`);
-  cacheItemAnchor.setAttribute('class', 'cache-item-anchor');
+    containerElement.append(cacheItem);
 
-  cacheItem.innerText = value.title;
+    const cacheItemAnchor = document.createElement('a');
+    cacheItemAnchor.setAttribute('id', `cache-item-anchor-${i}`);
+    cacheItemAnchor.setAttribute('class', 'cache-item-anchor');
 
-  cacheItemAnchor.addEventListener('click', viewCachedData(value.cacheId));
+    cacheItem.innerText = value.title;
 
-  cacheItem.append(cacheItemAnchor);
-});// `<div id='cached-data-${key}' class='cached-data'><a href='${value.url}'${value.file}</a></div>`).join();
+    cacheItemAnchor.addEventListener('click', viewCachedData(value.cacheId));
 
+    cacheItem.append(cacheItemAnchor);
+  });// `<div id='cached-data-${key}' class='cached-data'><a href='${value.url}'${value.file}</a></div>`).join();
+}
 export default {
   initDeUnivCache,
   getCache,

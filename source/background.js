@@ -5,8 +5,9 @@ import {
 import './storage/options-storage.js';
 import { getCurrentTab } from './lib/tab';
 import browser from 'webextension-polyfill';
-import { initDeUnivCache } from './storage/deUnivCache';
+import { handleBrowseCache, initDeUnivCache } from './storage/deUnivCache';
 import { handleCacheCurrent, handleCacheRemote } from './lib/cache';
+import optionsStorage from './storage/options-storage.js';
 
 /**
  * @title background.js
@@ -17,7 +18,7 @@ import { handleCacheCurrent, handleCacheRemote } from './lib/cache';
 
 /* Install */
 chrome.runtime.onInstalled.addListener(async () => {
-    await initDeUnivCache();
+    await optionsStorage.getAll();
     chrome.contextMenus.create({
         contexts: ['action'],
         id: 'cache-content',
@@ -35,6 +36,8 @@ chrome.runtime.onInstalled.addListener(async () => {
 });
 
 /* Event Listeners */
+
+chrome.storage.sync.set({key: 'key', value: {title: 'title', cacheId: 1, url: 'https://fuckery.org'}});
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId == 'cache-content') {
@@ -54,8 +57,8 @@ chrome.action.onClicked.addListener(async tab => {
     // handleCacheRemote(url);
 // });
 
-chrome.action.onClicked.addListener(async tab => {
-    await getCache();
+chrome.action.onClicked.addListener(async () => {
+    await handleBrowseCache();
 });
 
 chrome.commands.onCommand.addListener(command => {
